@@ -5,24 +5,24 @@ import 'package:flutter/material.dart';
 
 class Disk extends StatelessWidget {
   final int diskSize;
-  int currentRodId;
+  final int currentRodId;
 
   // static Disk disk0 = Disk(
   //   diskSize: 0,
   //   currentRodId: 0,
   // );
-  static Disk disk1 = Disk(
-    diskSize: 1,
-    currentRodId: 1,
-  );
-  static Disk disk3 = Disk(
-    diskSize: 3,
-    currentRodId: 1,
-  );
-  static Disk disk2 = Disk(
-    diskSize: 2,
-    currentRodId: 1,
-  );
+  // static Disk disk1 = Disk(
+  //   diskSize: 1,
+  //   currentRodId: 1,
+  // );
+  // static Disk disk3 = Disk(
+  //   diskSize: 3,
+  //   currentRodId: 1,
+  // );
+  // static Disk disk2 = Disk(
+  //   diskSize: 2,
+  //   currentRodId: 1,
+  // );
 
   Disk({@required this.diskSize, @required this.currentRodId});
 
@@ -30,11 +30,11 @@ class Disk extends StatelessWidget {
   Widget build(BuildContext context) {
     double diskWidth;
     if (diskSize == 1) {
-      diskWidth = 50;
+      diskWidth = 30;
     } else if (diskSize == 2) {
-      diskWidth = 100;
+      diskWidth = 60;
     } else if (diskSize == 3) {
-      diskWidth = 150;
+      diskWidth = 90;
     } else {
       diskWidth = 0;
     }
@@ -47,7 +47,7 @@ class Disk extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: Container(
           color: Colors.black,
-          height: diskWidth == 0 ? 0 : 30,
+          height: diskWidth == 0 ? 0 : 15,
           width: diskWidth,
         ),
       ),
@@ -55,7 +55,7 @@ class Disk extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         child: Container(
           color: Colors.black,
-          height: diskWidth == 0 ? 0 : 30,
+          height: diskWidth == 0 ? 0 : 15,
           width: diskWidth,
         ),
       ),

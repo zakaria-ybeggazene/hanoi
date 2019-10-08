@@ -5,9 +5,9 @@ import 'package:flutter/services.dart';
 import 'screens/game_screen.dart';
 
 void main() {
-  debugPaintSizeEnabled = true;
-  debugPaintPointersEnabled = true;
-  debugPaintBaselinesEnabled = true;
+  // debugPaintSizeEnabled = true;
+  // debugPaintPointersEnabled = true;
+  // debugPaintBaselinesEnabled = true;
   runApp(MyApp());
 }
 

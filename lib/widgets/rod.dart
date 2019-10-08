@@ -4,6 +4,7 @@ import './disk.dart';
 
 class Rod extends StatefulWidget {
   final bool initial;
+  final int id;
 
   Rod({this.initial, this.id});
   @override
@@ -17,74 +18,62 @@ class _RodState extends State<Rod> {
 
   @override
   Widget build(BuildContext context) {
-    bool accepted = false;
-    Disk emptyDisk = Disk(
-      diskSize: 0,
-      currentRodId: widget.id,
-    );
-    Disk topDisk;
-    Disk middleDisk;
-    Disk bottomDisk;
-    bool initialRod = widget.initial;
+    // Disk emptyDisk = Disk(
+    //   diskSize: 0,
+    //   currentRodId: widget.id,
+    // );
     double rodHeight = 150;
     int numberOfDisks = widget.initial ? 3 : 0;
     int i = numberOfDisks;
     // initialRod ? rodHeight = 105 : rodHeight = 150;
-    if (initialRod) {
+    if (widget.initial) {
       for (i = 0; i < numberOfDisks; i++) {
-        disksList[i] = Disk(
-          diskSize: i + 1,
-          currentRodId: widget.id,
+        disksList.add(
+          Disk(
+            diskSize: numberOfDisks - i,
+            currentRodId: widget.id,
+          ),
         );
       }
-      topDisk = Disk.disk1;
-      middleDisk = Disk.disk2;
-      bottomDisk = Disk.disk3;
-    } else {
-      topDisk = middleDisk = bottomDisk = emptyDisk;
+      // topDisk = Disk.disk1;
+      // middleDisk = Disk.disk2;
+      // bottomDisk = Disk.disk3;
     }
-    initialRod = false;
+    else {
+      for (i = 0; i < numberOfDisks; i++) {
+        disksList.add(
+          Disk(
+            diskSize: 0,
+            currentRodId: widget.id,
+          ),
+        );
+      }
+      // topDisk = middleDisk = bottomDisk = emptyDisk;
+    }
+    print(disksList.length);
     final double deviceWidth = MediaQuery.of(context).size.width;
     return DragTarget<Disk>(
       onAccept: (acceptedDisk) {
         Disk compareDisk;
-        if (numberOfDisks == 0) {
-          compareDisk = emptyDisk;
-        } else if (numberOfDisks == 1) {
-          compareDisk = bottomDisk;
-        } else if (numberOfDisks == 2) {
-          compareDisk = middleDisk;
-        } else if (numberOfDisks == 3) {
-          compareDisk = topDisk;
-        }
+        compareDisk = disksList.first;
         if (acceptedDisk.diskSize > compareDisk.diskSize && numberOfDisks < 4) {
-          if (numberOfDisks == 0) {
-            bottomDisk = acceptedDisk;
-            bottomDisk.currentRodId = widget.id;
-          } else if (numberOfDisks == 1) {
-            middleDisk = acceptedDisk;
-            middleDisk.currentRodId = widget.id;
-          } else if (numberOfDisks == 2) {
-            topDisk = acceptedDisk;
-            topDisk.currentRodId = widget.id;
-          }
-          numberOfDisks++;
+          setState(() {
+            disksList.add(acceptedDisk);
+            numberOfDisks++;
+          });
         }
         // if (rodHeight > 0) rodHeight = rodHeight - 15;
       },
       onLeave: (leftDisk) {
-        if (numberOfDisks == 1) {
-          bottomDisk = emptyDisk;
-        } else if (numberOfDisks == 2) {
-          middleDisk = emptyDisk;
-        } else if (numberOfDisks == 3) {
-          topDisk = emptyDisk;
+        if (numberOfDisks > 0) {
+          // disksList.removeLast();
+          numberOfDisks--;
         }
-        if (numberOfDisks > 0) numberOfDisks--;
         // if (rodHeight < 150) rodHeight = rodHeight + 15;
       },
       onWillAccept: (hoveringDisk) {
-        if (hoveringDisk.diskSize > disksList.first.diskSize) {
+        // print(disksList.last.diskSize);
+        if (hoveringDisk.diskSize > disksList.last.diskSize) {
           print('hello ${widget.id}');
           return true;
         }
@@ -110,15 +99,14 @@ class _RodState extends State<Rod> {
                       width: 10,
                     ),
                   ),
-                  Positioned(
-                    bottom: 30 * (numberOfDisks - 3),
-                    child: bottomDisk,
-                  ),
-                  Positioned(
-                    bottom: 30 * (numberOfDisks - 2),
-                    child: middleDisk,
-                  ),
-                  Positioned(bottom: 30 * (numberOfDisks - 1), child: topDisk),
+                  for (int i = 0; i < disksList.length; i++)
+                    Positioned(
+                      child: disksList[i],
+                      bottom: 15.0 * i,
+                    )
+                  // ...disksList.map((disk) {
+                  //   return Positioned(child: disk, bottom: 30 * ,);
+                  // }),
                 ],
               ),
               SizedBox(
