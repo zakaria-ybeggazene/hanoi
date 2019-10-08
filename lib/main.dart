@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
+// import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
 
-import 'screens/game_screen.dart';
+import './screens/game_screen.dart';
 
 void main() {
   // debugPaintSizeEnabled = true;

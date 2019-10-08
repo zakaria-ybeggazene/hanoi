@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 import './disk.dart';
@@ -15,69 +16,110 @@ class Rod extends StatefulWidget {
 
 class _RodState extends State<Rod> {
   List<Disk> disksList = [];
+  int numberOfDisks = 3;
+  // bool firstInit = true;
 
   @override
-  Widget build(BuildContext context) {
-    // Disk emptyDisk = Disk(
-    //   diskSize: 0,
-    //   currentRodId: widget.id,
-    // );
-    double rodHeight = 150;
-    int numberOfDisks = widget.initial ? 3 : 0;
-    int i = numberOfDisks;
-    // initialRod ? rodHeight = 105 : rodHeight = 150;
+  void initState() {
+    // if (firstInit) {
     if (widget.initial) {
+      int i = numberOfDisks;
       for (i = 0; i < numberOfDisks; i++) {
         disksList.add(
           Disk(
             diskSize: numberOfDisks - i,
             currentRodId: widget.id,
+            accepted: true,
           ),
         );
       }
-      // topDisk = Disk.disk1;
-      // middleDisk = Disk.disk2;
-      // bottomDisk = Disk.disk3;
     }
-    else {
-      for (i = 0; i < numberOfDisks; i++) {
-        disksList.add(
-          Disk(
-            diskSize: 0,
-            currentRodId: widget.id,
-          ),
-        );
-      }
-      // topDisk = middleDisk = bottomDisk = emptyDisk;
-    }
-    print(disksList.length);
+    // }
+    // firstInit = false;
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(Rod oldWidget) {
+    super.didUpdateWidget(oldWidget);
+  }
+
+  Future<bool> _acceptedDisk(Disk disk) {
+    // return disk.accepted;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    double rodHeight = 150;
     final double deviceWidth = MediaQuery.of(context).size.width;
     return DragTarget<Disk>(
       onAccept: (acceptedDisk) {
-        Disk compareDisk;
-        compareDisk = disksList.first;
-        if (acceptedDisk.diskSize > compareDisk.diskSize && numberOfDisks < 4) {
-          setState(() {
+        print('acceptedDisk accepted : ${acceptedDisk.accepted}');
+        if (disksList.length > 0) {
+          if (acceptedDisk.diskSize < disksList.last.diskSize &&
+              disksList.length <= numberOfDisks) {
             disksList.add(acceptedDisk);
-            numberOfDisks++;
-          });
+            disksList.last = Disk(
+              diskSize: disksList.last.diskSize,
+              currentRodId: widget.id,
+              accepted: true,
+            );
+          }
+        } else {
+          disksList.add(acceptedDisk);
         }
-        // if (rodHeight > 0) rodHeight = rodHeight - 15;
+        print('length of the rod${widget.id} is ${disksList.length}');
+        if (widget.id == 3 && disksList.length == numberOfDisks) {
+          print('You won');
+          showDialog(
+              context: context,
+              builder: (ctx) {
+                return AlertDialog(
+                  title: Text('You Won!'),
+                  actions: <Widget>[
+                    FlatButton(
+                      child: Text('Replay'),
+                      onPressed: () {
+                        Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                );
+              });
+        }
       },
-      onLeave: (leftDisk) {
-        if (numberOfDisks > 0) {
-          // disksList.removeLast();
-          numberOfDisks--;
+      onLeave: (leavingDisk) {
+        Disk leftDisk;
+        // print('leftOnce = $leftOnce');
+        if (disksList.length > 0 && !leavingDisk.accepted) {
+          leftDisk = disksList.removeLast();
         }
-        // if (rodHeight < 150) rodHeight = rodHeight + 15;
+        print('length of the rod${widget.id} is ${disksList.length}');
       },
       onWillAccept: (hoveringDisk) {
-        // print(disksList.last.diskSize);
-        if (hoveringDisk.diskSize > disksList.last.diskSize) {
-          print('hello ${widget.id}');
+        print(hoveringDisk.currentRodId);
+        if (disksList.length == 0) {
+          print('here1');
+          print('hoveringDisk accepted : ${hoveringDisk.accepted}');
+          // print('leftOnce = $leftOnce');
           return true;
+        } else {
+          if (hoveringDisk.diskSize < disksList.last.diskSize &&
+              disksList.length <= numberOfDisks &&
+              hoveringDisk.currentRodId == widget.id) {
+            print('here2');
+            disksList.last = Disk(
+              diskSize: hoveringDisk.diskSize,
+              currentRodId: hoveringDisk.currentRodId,
+              accepted: false,
+            );
+            // && hoveringDisk.currentRodId != widget.id
+            // print('hello ${widget.id}');
+            return true;
+          }
+          print('here3');
+          return false;
         }
-        return false;
       },
       builder: (BuildContext context, List<Disk> candidateData, rejectedData) {
         return Container(
@@ -103,7 +145,7 @@ class _RodState extends State<Rod> {
                     Positioned(
                       child: disksList[i],
                       bottom: 15.0 * i,
-                    )
+                    ),
                   // ...disksList.map((disk) {
                   //   return Positioned(child: disk, bottom: 30 * ,);
                   // }),
@@ -119,26 +161,3 @@ class _RodState extends State<Rod> {
     );
   }
 }
-
-// trigger when win
-// if (widget.id == 3 &&
-//             bottomDisk == Disk.disk3 &&
-//             middleDisk == Disk.disk2 &&
-//             topDisk == Disk.disk1) {
-//           print('You won');
-//           showDialog(
-//               context: context,
-//               builder: (ctx) {
-//                 return AlertDialog(
-//                   title: Text('You Won!'),
-//                   actions: <Widget>[
-//                     FlatButton(
-//                       child: Text('Replay'),
-//                       onPressed: () {
-//                         Navigator.of(context).pop();
-//                       },
-//                     )
-//                   ],
-//                 );
-//               });
-//         }

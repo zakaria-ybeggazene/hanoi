@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/rod.dart';
-import '../widgets/disk.dart';
 
 class GameScreen extends StatefulWidget {
   @override

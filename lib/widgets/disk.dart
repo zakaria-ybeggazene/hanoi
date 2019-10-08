@@ -1,12 +1,21 @@
-import 'dart:ui';
-
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
-class Disk extends StatelessWidget {
+class Disk extends StatefulWidget {
   final int diskSize;
   final int currentRodId;
+  final bool accepted;
 
+  Disk(
+      {@required this.diskSize,
+      @required this.currentRodId,
+      @required this.accepted});
+
+  @override
+  createState() => _DiskState();
+}
+
+class _DiskState extends State<Disk> {
   // static Disk disk0 = Disk(
   //   diskSize: 0,
   //   currentRodId: 0,
@@ -24,24 +33,20 @@ class Disk extends StatelessWidget {
   //   currentRodId: 1,
   // );
 
-  Disk({@required this.diskSize, @required this.currentRodId});
-
   @override
   Widget build(BuildContext context) {
+    int _currentRodId = widget.currentRodId;
     double diskWidth;
-    if (diskSize == 1) {
-      diskWidth = 30;
-    } else if (diskSize == 2) {
-      diskWidth = 60;
-    } else if (diskSize == 3) {
-      diskWidth = 90;
+    if (widget.diskSize > 0) {
+      diskWidth = widget.diskSize * 30.0;
     } else {
       diskWidth = 0;
     }
     return Draggable<Disk>(
       data: Disk(
-        diskSize: diskSize,
-        currentRodId: currentRodId,
+        diskSize: widget.diskSize,
+        currentRodId: _currentRodId,
+        accepted: true,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
@@ -60,9 +65,6 @@ class Disk extends StatelessWidget {
         ),
       ),
       childWhenDragging: Container(),
-      onDragCompleted: () {
-        return Container();
-      },
     );
   }
 }
