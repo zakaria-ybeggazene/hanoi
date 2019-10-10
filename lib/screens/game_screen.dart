@@ -14,6 +14,8 @@ class GameScreen extends StatefulWidget {
 
   static List<Rod> rodList = [rod1, rod2, rod3];
 
+  static Disk lastLeftDisk;
+
   @override
   _GameScreenState createState() => _GameScreenState();
 }
@@ -33,9 +35,15 @@ class _GameScreenState extends State<GameScreen> {
           Container(
             child: Row(
               children: <Widget>[
-                RodBuild(GameScreen.rod1),
-                RodBuild(GameScreen.rod2),
-                RodBuild(GameScreen.rod3)
+                RodBuild(
+                  GameScreen.rod1,
+                ),
+                RodBuild(
+                  GameScreen.rod2,
+                ),
+                RodBuild(
+                  GameScreen.rod3,
+                ),
               ],
             ),
           ),
