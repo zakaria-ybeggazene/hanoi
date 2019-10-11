@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hanoi/main.dart';
 
 import '../widgets/rod_build.dart';
 import '../models/rod.dart';
@@ -16,6 +17,10 @@ class GameScreen extends StatefulWidget {
 
   static Disk lastLeftDisk;
 
+  final int numberOfDisks;
+
+  GameScreen(this.numberOfDisks);
+
   @override
   _GameScreenState createState() => _GameScreenState();
 }
@@ -24,6 +29,10 @@ class _GameScreenState extends State<GameScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+      ),
       backgroundColor: Colors.lightBlue[100],
       body: Stack(
         alignment: Alignment.bottomCenter,
@@ -35,23 +44,12 @@ class _GameScreenState extends State<GameScreen> {
           Container(
             child: Row(
               children: <Widget>[
-                RodBuild(
-                  GameScreen.rod1,
-                ),
-                RodBuild(
-                  GameScreen.rod2,
-                ),
-                RodBuild(
-                  GameScreen.rod3,
-                ),
+                RodBuild(GameScreen.rod1, widget.numberOfDisks),
+                RodBuild(GameScreen.rod2, widget.numberOfDisks),
+                RodBuild(GameScreen.rod3, widget.numberOfDisks),
               ],
             ),
           ),
-          // Flexible(
-          //   child: Container(
-          //     color: Colors.lightGreen,
-          //   ),
-          // ),
         ],
       ),
     );

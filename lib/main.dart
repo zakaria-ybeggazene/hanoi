@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import './screens/game_screen.dart';
+import './screens/main_menu_screen.dart';
 
 void main() {
   // debugPaintSizeEnabled = true;
@@ -14,12 +15,13 @@ void main() {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    SystemChrome.setEnabledSystemUIOverlays([]);
     SystemChrome.setPreferredOrientations(
         [DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft]);
     return MaterialApp(
       theme: ThemeData(
           primarySwatch: Colors.yellow, accentColor: Colors.deepPurple),
-      home: GameScreen(),
+      home: MainMenuScreen(),
     );
   }
 }
