@@ -20,7 +20,7 @@ class MyApp extends StatelessWidget {
         [DeviceOrientation.landscapeRight, DeviceOrientation.landscapeLeft]);
     return MaterialApp(
       theme: ThemeData(
-          primarySwatch: Colors.yellow, accentColor: Colors.deepPurple),
+          primarySwatch: Colors.deepOrange, accentColor: Colors.lightBlue),
       home: MainMenuScreen(),
     );
   }
