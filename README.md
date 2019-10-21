@@ -1,6 +1,8 @@
 # hanoi
 
-A new Flutter project.
+Hanoi Towers game developed with Flutter built-in widgets (by a begginer)
+
+You can run the game on your device by cloning the project in your computer and building the application after downloading the flutter sdk (visit links below)
 
 ## Getting Started
 
