@@ -13,6 +13,8 @@ class GameScreen extends StatefulWidget {
   static Rod rod2 = Rod(id: 2, disksList: list2);
   static Rod rod3 = Rod(id: 3, disksList: list3);
 
+  static int numberOfMoves = 0;
+
   static List<Rod> rodList = [rod1, rod2, rod3];
 
   static Disk lastLeftDisk;
@@ -31,6 +33,7 @@ class _GameScreenState extends State<GameScreen> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
+        title: Text(GameScreen.numberOfMoves.toString()),
         elevation: 0,
       ),
       backgroundColor: Colors.lightBlue[100],

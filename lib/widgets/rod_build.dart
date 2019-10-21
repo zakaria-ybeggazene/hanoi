@@ -109,6 +109,7 @@ class _RodBuildState extends State<RodBuild> {
                         setState(() {
                           GameScreen.rod1.disksList = widget.rod.disksList;
                           widget.rod.disksList = [];
+                          main();
                         });
                         Navigator.of(context).pop();
                       },
@@ -119,14 +120,15 @@ class _RodBuildState extends State<RodBuild> {
         }
       },
       onLeave: (leavingDisk) {
-        print('on leave rod : ${widget.rod.id}');
         if (listD.length > 0 &&
             leavingDisk.currentRodId == widget.rod.id &&
             GameScreen.lastLeftDisk == null) {
           GameScreen.lastLeftDisk = listD.removeLast();
+          setState(() {
+            GameScreen.numberOfMoves++;
+          });
           if (listD.length > 0) listD.last.draggable = true;
         }
-        print('length of the rod${widget.rod.id} is ${listD.length}');
       },
       onWillAccept: (hoveringDisk) {
         return true;
